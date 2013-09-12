@@ -1,0 +1,4 @@
+Topic : 
+getLastError - use for update, insert, remove. It returns the result of executed query
+
+db.runCommand( { getLastError : 1 } )

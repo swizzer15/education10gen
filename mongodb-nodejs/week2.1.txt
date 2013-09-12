@@ -1,0 +1,52 @@
+Topic : (Find)
+1 - show
+0 - hide
+
+
+$lt, $gt
+
+Syntax:
+db.score.find( { score : { $gt: 95 } } )
+db.score.find( { score : { $lt: 95, $gt: 20 } } ) - AND
+db.score.find( { score : { $lt: 95 }, { $gt: 20 } } ) - OR
+
+
+$exist, $type, $regex
+
+Syntax:
+db.people.find ( { profession : { $exists: true } } ) - results item having profession field
+db.people.find ( { profession : { $exists: false } } ) - results item don't have profession field
+db.people.find ( { profession : { $type: 2 } } ) - returns string value
+db.people.find ( { name : { $regex: "a" } } ) - output name having 'a' character in it
+db.people.find ( { name : { $regex: "^A" } } ) - name starts with capital A
+db.people.find ( { name : { $regex: "a$" } } ) - ends with small e
+
+
+$or, $and
+
+Syntax:
+db.people.find ( { $or : [ { name : { $regex :  "e$" }, { age : { $exists : true } } ] } ) - or combinations of two where (optional)
+db.people.find ( { $and : [ { name : { $regex :  "e$" }, { age : { $exists : true } } ] } ) - and combinations of two where (required)
+
+
+
+$in, $all
+
+Syntax:
+db.accounts.find( { favorites : { $all : ["pretzels", "beer"] } } ) - show all items contains "pretzels" and "beer"
+db.accounts.find( { favorites : { $in : ["pretzels", "beer"] } } ) - show items contains "pretzels" either "beer"
+
+
+
+dot notation:
+ex: email : { work : "work@mail.com", personal : "personal@email.com" }
+
+Syntax:
+
+db.account.find( { "email.work" : "work@mail.com" } ) - specific field under email
+
+
+count:
+db.scores.count()
+
+

@@ -1,0 +1,73 @@
+Topic:
+This help will to load datas in a collection much faster.
+
+
+ensureIndex, dropIndex
+Syntax:
+
+db.students.ensureIndex({'student_id': 1}) - sort descending.
+db.students.ensureIndex({'student_id': 1, 'class': -1})
+
+db.system.indexes.find()
+db.students.getIndexes()
+
+
+db.students.dropIndex({'student_id': 1})
+
+db.system.indexes.find()
+db.students.getIndexes()
+
+
+
+Note:  Accepts MultiKey Indexes but do not accepts 2 array indexes
+
+---------------------------------------------------------------------------------------------------------
+Unique - insertions/unique index (help in accounts)
+
+Syntax:
+db.students.dropIndex({'student_id': 1}, {unique:true})
+
+---------------------------------------------------------------------------------------------------------
+dropDups
+Not Recommended but possible
+fruits {apple, orange, mango}
+fruits {grapes, orange, banana}
+fruits {apple, starapple, kiwi}
+
+Syntax:
+
+db.students.dropIndex({'fruits': 1}, {unique:true, dropDups: true}) - remove duplicates
+
+result:
+fruits {grapes, orange, banana}
+fruits {apple, starapple, kiwi}
+
+but we can't control what dups may removed.
+
+--------------------------------------------------------------------------------------------------------
+Spares Index - indexing inconsistent fields in an index
+
+{name: alex, age: 20, city: cebu}
+{name: gera, age: 21} - this will not be recognize
+
+Syntax:
+db.students.dropIndex({'city': 1}, {unique:true, parse:true})
+
+
+--------------------------------------------------------------------------------------------------------
+Foreground - fast, block writers (per DB lock)
+use not in prod if ints not a replicate system
+use for personal.
+
+Background: true - slow, does not block writers (per DB lock)
+use in prod but not replicate system
+
+
+
+Note:
+if using multiple indexes, it will only work if the first index is used or it is always visible.
+
+find().hint({index})
+or
+find().hint({$natural}) - display natural find.
+find().explain()

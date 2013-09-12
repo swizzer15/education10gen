@@ -1,0 +1,38 @@
+GitHub.com : http://www.codeschool.com/
+
+Note: eclose the file name "<file_name>".txt if it space separated 
+
+-----------------------------------------------------------------------------------------------------------------
+
+git init
+
+clone :
+git clone https://github.com/swizzer15/education10gen.git
+
+cd education10gen
+
+
+UPADTE:
+1. update the file
+2. use this command (git add *) or (git commit * -m "<msg>") or (git commit <file name> -m "<msg>")
+3. git push origin master
+
+
+
+ADD: (from scrath)
+1. (git add *) or (git add <file_name>)
+2. git push origin master
+
+
+
+ADD: (If exists)
+1. git add <file_name>
+2. git commit <file name> -m "<msg>"
+2. git push origin master
+
+
+
+DELETE:
+1. git rm --cached <file_name>
+2. git commit <file name> -m "<msg>"
+3. git push origin master

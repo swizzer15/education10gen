@@ -1,0 +1,5 @@
+Successfully created user
+Successfully logged out
+Successfully logged in
+Blog validated successfully!
+Your validation code is: A7foYWqTpKqRftI2d1D8

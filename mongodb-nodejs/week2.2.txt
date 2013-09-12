@@ -1,0 +1,60 @@
+Topic : (Update)
+$set, $pull, $push, $pop, $pull, $pushAll, $pullAll, $addToSet, $upsert, $multi; $inc
+
+Discussions:
+
+arrays = ( { _id : 0 , a : [ 1, 2, 3, 4, 5 ] } )
+
+$set 	- 	update the selected field
+Query 	=	db.arrays.update( { _id : 0 }, { $set : { "a.2" : 7 } } )
+Results =	arrays = ( { _id : 0 , a : [ 1, 2, 7, 4, 5 ] } )
+
+$push 	- 	push data specified regardless the data is already exist
+Query 	=	db.arrays.update( { _id : 0 }, { $push : { a : 6 } } )
+Results =	arrays = ( { _id : 0 , a : [ 1, 2, 7, 4, 5, 6 ] } )
+
+$pop	-	remove the last data
+Query 	=	db.arrays.update( { _id : 0 }, { $pop : { a : 1 } } )
+Results =	arrays = ( { _id : 0 , a : [ 1, 2, 7, 4, 5 ] } )
+
+$pop	-	remove the first data
+Query 	=	db.arrays.update( { _id : 0 }, { $pop : { a : -1 } } )
+Results =	arrays = ( { _id : 0 , a : [ 2, 7, 4, 5 ] } )
+
+$pushAll - 	push all data specified regardless the data is already exist
+Query 	=	db.arrays.update( { _id : 0 }, { $pushAll : { a : [ 1, 0 ] } } )
+Results =	arrays = ( { _id : 0 , a : [ 1, 2, 7, 4, 5, 1, 0 ] } )
+
+$pull	-	removed data specified
+Query 	=	db.arrays.update( { _id : 0 }, { $pull : { a : 5 } } )
+Results =	arrays = ( { _id : 0 , a : [ 1, 2, 7, 4, 1, 0 ] } )
+
+$pullAll - 	removed all data specified
+Query 	=	db.arrays.update( { _id : 0 }, { $pullAll : { a : [ 4, 1, 0 ] } } )
+Results =	arrays = ( { _id : 0 , a : [ 1, 2, 7 ] } )
+
+$addToSet 	- 	won't add to the set if the value exist
+Query 		=	db.arrays.update( { _id : 0 }, { $addToSet : { a : 5 } } )
+Results 	=	arrays = ( { _id : 0 , a : [ 1, 2, 7, 5 ] } )
+
+$upsert - 	update the existing data if found else insert data including the where clause data
+Query 	=	db.arrays.update( { _id : 1 }, { $set : { a : 5 } }, {upsert : true } )
+Results =	arrays = ( { _id : 0 , a : [ 1, 2, 7, 5 ] } )
+			arrays = ( { _id : 1 , a : [ 5 ] } )
+			
+$multi 	- 	update multi document if field exist else add the field to all document (no where clause)
+Query 	=	db.arrays.update( {}, { $set : { "title" : "Dr" } }, { $multi = true } )
+
+
+$inc 	- 	increment value
+Query 	=	db.arrays.update( { _id : 0 }, { $inc : { "a.2" : 1 } } )
+			arrays = ( { _id : 0 , a : [ 1, 2, 7, 5 ] } )
+Results =	arrays = ( { _id : 0 , a : [ 1, 2, 8, 5 ] } )
+
+
+
+
+Topic : (Delete)
+
+db.arrays.remove( {} ) 	-	remove all data (where clause = empty)
+db.array.drop() 		-	remove collection
