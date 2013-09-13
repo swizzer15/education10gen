@@ -1,0 +1,68 @@
+Answers :
+82541 - 5.2
+1 - 5.3
+298015 - 5.4
+
+
+Queries :
+// homework 5.1
+db.posts.aggregate([
+  {$project: {"_id": 0,
+              "comments.author": 1
+  }},
+  {$unwind: "$comments"},
+  {$group: {"_id": "$comments.author",
+           sum: {"$sum": 1}
+  }},
+  {$sort: {"sum": -1}},
+])
+
+
+// homework 5.2
+db.zip.aggregate([
+  {$group:{
+    "_id": {state: "$state",
+            city: "$city"},
+    pop: {"$sum": "$pop"}
+  }},
+  {$match:{"pop":{"$gt":25000}, "_id.state": {"$in": ["CA", "NY"]}}},
+  {$group:{
+    "_id":null,
+    avg: {"$avg": "$pop"}
+  }} 
+])
+
+// homework 5.3
+db.grades.aggregate([
+  {$unwind:"$scores"},
+  {$match:{"scores.type":{"$ne": "quiz"}}},
+  {$group:{"_id": {class_id: "$class_id",
+            student_id: "$student_id"},
+    avg_per_student: {"$avg": "$scores.score"}
+  }},
+  {$group:{
+    "_id": "$_id.class_id",
+    avg: {"$avg": "$avg_per_student"}
+  }},
+  {$sort: {"avg": -1}}
+])
+ 
+// homework 5.4 query 1
+db.zips.aggregate([
+    {$project: 
+     {
+       first_char: {$substr : ["$city",0,1]},
+       pop:1
+     }},
+     {$match:{"first_char":{"$regex": "[0-9]"}}},
+     {$group:{
+       "_id":null,
+       sum: {"$sum": "$pop"}
+     }}
+])
+
+
+// homework 5.4 query 2
+db.zip.aggregate ([ { $match: {city: /^\d+$/} }, {$group: {_id: null, population: {$sum: "$pop"} } }
+])
+
