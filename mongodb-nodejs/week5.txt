@@ -5,4 +5,74 @@ Sysntax:
 db.products.aggregate([{$group:{_id:"$manufacturer",num_products:{$sum:1}}}]) - to group manufacturer
 
 
-The aggregation pipeline
+
+
+The aggregation uses pipeline:
+$project - select which keys you interested, reshape document
+$match - filter
+$group - aggregetion 
+$sort - sort
+$skip - skip forward, use after sort
+$limit - limit no. of documents
+$unwind - denormalize subarrays. produce document in every single line.
+ex: tags['sports','outdoor','indoor']
+results: {tags: 'sports'}
+		 {tags: 'outdoor'}
+		 {tags: 'indoor'}
+
+
+
+		 
+Compound Grouping:
+_id : {
+	  "manufacturer":"$manufacturer",
+	  "category:"$category",
+	  },
+	num_products:{$sum:1} 				- inncrement by 1
+	
+
+	
+	
+
+Aggregation Expressions:
+$sum, $avg, $min, $max, $push, $addtoSet, $first, $least
+
+Syntax:
+$sum:
+{_id : {
+	  "manufacturer":"$manufacturer",
+	  "category":"$category",
+	  },
+sum_price:{$sum:"$price"}}		- sum all the prices
+	
+	
+$avg:
+{_id : {
+	  "manufacturer":"$manufacturer",
+	  "category":"$category",
+	  },
+avg_price:{$avg:"$price"}}		- avg the prices
+	
+
+$addtoSet:
+{_id :"$manufacturer",
+ add_categories:{$addtoSet:"$category"}}		- show categories in array
+ 
+ 
+
+$push:
+{_id : 		"manufacturer":"$manufacturer",
+categories:	{$push:"$category"}}		- to see what category each product have (dupe possibility)
+
+
+
+$max:
+{_id :		"manufacturer":"$manufacturer",
+max_price:	{$max:"$price"}}		- get the max price
+
+
+
+$min:
+{_id : 		"manufacturer":"$manufacturer",
+min_price:	{$min:"$price"}}		- get the min price
+
