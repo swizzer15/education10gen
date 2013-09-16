@@ -3,4 +3,4 @@ Importing json file to mongo database:
 
 command:
 
-mongoimport -d <db_name> -c <collection_name> <file_path>
+mongoimport -d <db_name> -c <collection_name> --file <file_path>
